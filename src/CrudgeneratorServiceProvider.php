@@ -25,9 +25,14 @@ class CrudgeneratorServiceProvider extends ServiceProvider
             ], 'config');
 
             $this->publishes([
-                __DIR__.'CrudGenerator.php' => app_path('Console/Commands/CrudGenerator.php'),
-                __DIR__.'DestroyCrud.php' => app_path('Console/Commands/DestroyCrud.php'),
+                __DIR__.'/CrudGenerator.php' => app_path('Console/Commands/CrudGenerator.php'),
+                __DIR__.'/DestroyCrud.php' => app_path('Console/Commands/DestroyCrud.php'),
             ], 'commands');
+
+            $this->commands([
+                CrudGenerator::class,
+                DestroyCrud::class
+            ]);
 
             // Publishing the views.
             /*$this->publishes([
