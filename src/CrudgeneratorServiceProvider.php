@@ -25,7 +25,7 @@ class CrudgeneratorServiceProvider extends ServiceProvider
             ], 'config');
 
             $this->publishes([
-                __DIR__.'/stubs' => base_path('/'),
+                __DIR__.'/stubs' => base_path('/stubs'),
             ], 'stubs');
 
             $this->publishes([
