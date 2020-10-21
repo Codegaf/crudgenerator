@@ -25,12 +25,12 @@ class CrudgeneratorServiceProvider extends ServiceProvider
             ], 'config');
 
             $this->publishes([
-                __DIR__.'/stubs' => base_path('/stubs'),
+                __DIR__.'/stubs/custom' => base_path('/stubs/custom'),
             ], 'stubs');
 
             $this->publishes([
-                __DIR__.'/CrudGenerator.php' => app_path('Console/Commands/CrudGenerator.php'),
-                __DIR__.'/DestroyCrud.php' => app_path('Console/Commands/DestroyCrud.php'),
+                __DIR__.'/stubs/CrudGenerator.stub' => app_path('Console/Commands/CrudGenerator.php'),
+                __DIR__.'/stubs/DestroyCrud.stub' => app_path('Console/Commands/DestroyCrud.php')
             ], 'commands');
 
             $this->commands([
@@ -61,7 +61,7 @@ class CrudgeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'crudgenerator');
+        //$this->mergeConfigFrom(__DIR__.'/../config/config.php', 'crudgenerator');
 
         // Register the main class to use with the facade
         $this->app->singleton('crudgenerator', function () {
