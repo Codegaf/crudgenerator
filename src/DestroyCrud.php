@@ -12,7 +12,7 @@ class DestroyCrud extends Command
      *
      * @var string
      */
-    protected $signature = 'destroy:crud {model}';
+    protected $signature = 'destroy:crud {model} {noconfirm?}';
 
     /**
      * The console command description.
@@ -50,16 +50,27 @@ class DestroyCrud extends Command
         $this->modelSnakeCase = $this->setModelSnakeCase($this->modelPlural);
         $this->modelKebab = $this->setModelKebab($this->modelCamelCase);
 
-        if ($this->confirm('¿Está seguro que desea eliminar todo el crud?')) {
+        if ($this->argument('noconfirm') === 'noconfirm') {
             $this->handleDestroyModel();
             $this->handleDestroyController();
             $this->handleDestroyService();
             $this->handleDestroyRepository();
             $this->handleDestroyRequest();
             $this->handleDestroyDatatable();
-
-            $this->info('DestroyCrud finalizado correctamente');
         }
+        else {
+            if ($this->confirm('Esta seguro que desea eliminar todo el crud?')) {
+                $this->handleDestroyModel();
+                $this->handleDestroyController();
+                $this->handleDestroyService();
+                $this->handleDestroyRepository();
+                $this->handleDestroyRequest();
+                $this->handleDestroyDatatable();
+
+                $this->info('DestroyCrud finalizado correctamente');
+            }
+        }
+
 
         return 0;
     }

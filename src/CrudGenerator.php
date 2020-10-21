@@ -60,36 +60,36 @@ class CrudGenerator extends Command
             }
             else {
                 // Migration
-                if ($this->confirm('¿Crear Migration?')) {
+                if ($this->confirm('Crear Migration?')) {
                     $this->handleMigration();
                 }
 
                 // Model
-                if ($this->confirm('¿Crear Modelo?')) {
+                if ($this->confirm('Crear Modelo?')) {
                     $this->handleModel();
                 }
 
                 // Controller
-                if ($this->confirm('¿Crear Controller?')) {
+                if ($this->confirm('Crear Controller?')) {
                     $this->handleController();
                 }
 
                 // Service
-                if ($this->confirm('¿Crear Service?')) {
+                if ($this->confirm('Crear Service?')) {
                     $this->handleService();
                 }
 
                 // Repository
-                if ($this->confirm('¿Crear Repositorio?')) {
+                if ($this->confirm('Crear Repositorio?')) {
                     $this->handleRepository();
                 }
 
-                if ($this->confirm('¿Crear DataTables?')) {
+                if ($this->confirm('Crear DataTables?')) {
                     $this->handleDataTable();
                 }
 
                 // Request
-                if ($this->confirm('¿Crear Request?')) {
+                if ($this->confirm('Crear Request?')) {
                     $this->handleRequest();
                 }
             }
@@ -99,8 +99,8 @@ class CrudGenerator extends Command
             return 0;
         }
         catch (\Throwable $e) {
-            Artisan::call('destroy:crud '.$this->model);
             $this->info($e->getTraceAsString());
+            Artisan::call('destroy:crud '.$this->model. ' noconfirm');
             return 1;
         }
 
@@ -147,7 +147,7 @@ class CrudGenerator extends Command
     public function handleModel() {
         $fillable = implode('","', config('models.'.$this->modelCamelCase.'.model.fillable'));
         $fillable = '"'.$fillable.'"';
-        $relations = config('models.'.$this->modelCamelCase.'.model.relations');
+        $relations = config('models.'.$this->modelCamelCase.'.model.relations') ?? [];
         $relationsDefinition = '';
 
         foreach ($relations as $type => $relation) {
