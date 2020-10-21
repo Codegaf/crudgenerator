@@ -204,7 +204,7 @@ class CrudGenerator extends Command
         $columnsDefinition = '';
 
         foreach ($columnsDataTable as $name => $column) {
-            $columnsDefinition .= 'Column::make("'.$name.'")->title(__("global.'.$column['label'].'")),' . PHP_EOL;
+            $columnsDefinition .= 'Column::make("'.$name.'")->title(__("'.$column['label'].'")),' . PHP_EOL;
         }
 
         $datatable = $this->getStub('dataTable');

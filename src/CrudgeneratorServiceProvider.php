@@ -25,6 +25,10 @@ class CrudgeneratorServiceProvider extends ServiceProvider
             ], 'config');
 
             $this->publishes([
+                __DIR__.'/stubs' => base_path(),
+            ], 'stubs');
+
+            $this->publishes([
                 __DIR__.'/CrudGenerator.php' => app_path('Console/Commands/CrudGenerator.php'),
                 __DIR__.'/DestroyCrud.php' => app_path('Console/Commands/DestroyCrud.php'),
             ], 'commands');
@@ -48,9 +52,6 @@ class CrudgeneratorServiceProvider extends ServiceProvider
             /*$this->publishes([
                 __DIR__.'/../resources/lang' => resource_path('lang/vendor/crudgenerator'),
             ], 'lang');*/
-
-            // Registering package commands.
-            // $this->commands([]);
         }
     }
 

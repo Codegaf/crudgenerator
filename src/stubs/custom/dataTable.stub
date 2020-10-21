@@ -1,0 +1,110 @@
+<?php
+
+namespace App\DataTables;
+
+use App\Traits\FiltersDatatable;
+use App\Models\{{ modelUpperCamelCase }};
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Services\DataTable;
+use Illuminate\Database\Eloquent\Builder;
+use Yajra\DataTables\DataTableAbstract;
+use Yajra\DataTables\Html\Builder as YajraBuilder;
+
+class {{ modelUpperCamelCase }}DataTable extends DataTable
+{
+
+    /**
+     * Build DataTable class.
+     *
+     * @param mixed $query Results from query() method.
+     * @return DataTableAbstract
+     */
+    public function dataTable($query)
+    {
+        return datatables()
+            ->eloquent($query)
+            ->addColumn('action', function ($query) {
+                return '<div class="btn-group dropdown mr-1 mb-1">
+                <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown"
+                  data-boundary="window" aria-haspopup="true" aria-expanded="false">
+                    '.__("global.menu").'
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="'.route('{{ modelCamelCase }}.edit', ['{{ modelCamelCase }}' => $query->id]).'">'.__("global.edit").'</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item delete-{{ modelKebab }}" href="#" data-href="'.route('{{ modelCamelCase }}.destroy', ['{{ modelCamelCase }}' => $query->id]).'">'.__('global.delete').'</a>
+                </div>
+              </div>';
+            });
+    }
+
+    /**
+     * Get query source of dataTable.
+     *
+     * @param {{ modelUpperCamelCase }} $model
+     * @return Builder
+     */
+    public function query({{ modelUpperCamelCase }} $model)
+    {
+        return $model->newQuery();
+    }
+
+    /**
+     * Optional method if you want to use html builder.
+     *
+     * @return YajraBuilder
+     */
+    public function html()
+    {
+        return $this->builder()
+            ->parameters([
+                'language' => [
+                    'url' => asset('/vendor/datatables/lang/'.app()->getLocale().'.json'),
+                ],
+            ])
+            ->postAjax([
+                'url' => route('{{ modelCamelCase }}.index'),
+                'data' => 'function(d) {
+
+                }'
+            ])
+            ->setTableId('{{ modelKebab }}-table')
+            ->columns($this->getColumns())
+            ->dom('B <"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>> rt <"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>')
+            ->orderBy(1, 'asc')
+            ->buttons(
+                Button::make('reload'),
+                Button::make('export')
+            );
+    }
+
+    /**
+     * Get columns.
+     *
+     * @return array
+     */
+    protected function getColumns()
+    {
+        return [
+            {{ columnsDataTable }}
+            Column::computed('action')
+                ->title(__('global.action'))
+                ->orderable(false)
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center')
+        ];
+    }
+
+    /**
+     * Get filename for export.
+     *
+     * @return string
+     */
+    protected function filename()
+    {
+        return '{{ modelUpperCamelCase }}_' . date('YmdHis');
+    }
+}

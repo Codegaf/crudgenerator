@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Services\{{ modelUpperCamelCase }}Service;
+
+use App\Models\{{ modelUpperCamelCase }};
+use App\Repositories\{{ modelUpperCamelCase }}Repo\{{ modelUpperCamelCase }}Repo;
+use Illuminate\View\View;
+use App\DataTables\{{ modelUpperCamelCase }}DataTable;
+
+class {{ modelUpperCamelCase }}Service
+{
+
+    protected ${{ modelCamelCase }}Repo;
+
+    public function __construct({{ modelUpperCamelCase }}Repo ${{ modelCamelCase }}) {
+        $this->{{ modelCamelCase }}Repo = ${{ modelCamelCase }};
+    }
+
+    /**
+     * Muestra un listado de una entidad
+     *
+     * @param {{ modelUpperCamelCase }}DataTable ${{ modelCamelCase }}DataTable
+     * @return View
+     */
+    public function index({{ modelUpperCamelCase }}DataTable ${{ modelCamelCase }}DataTable)
+    {
+        return ${{ modelCamelCase }}DataTable->render('{{ modelCamelCase }}.index');
+    }
+
+    /**
+     * Muestra el formulario de creación
+     *
+     * @return View
+     */
+    public function create()
+    {
+        return view('{{ modelCamelCase }}.create');
+    }
+
+    /**
+     * Crea una nueva entidad
+     *
+     * @param  array $data
+     * @return \Illuminate\Http\Response
+     */
+    public function store(array $data)
+    {
+        ${{ modelCamelCase }} = $this->{{ modelCamelCase }}Repo->create($data);
+
+        return response()->okView('{{ modelCamelCase }}.index');
+    }
+
+    /**
+     * Muestra una entidad específica
+     *
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return View
+     */
+    public function show({{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        return view('{{ modelCamelCase }}.show', compact('{{ modelCamelCase }}'));
+    }
+
+    /**
+     * Muestra el formulario de edición de una entidad específica
+     *
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return View
+     */
+    public function edit({{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        return view('{{ modelCamelCase }}.edit', compact('{{ modelCamelCase }}'));
+    }
+
+    /**
+     * Actualiza una entidad específica
+     *
+     * @param  array $data
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return \Illuminate\Http\Response
+     */
+    public function update(array $data, {{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        ${{ modelCamelCase }} = $this->{{ modelCamelCase }}Repo->update(${{ modelCamelCase }}, $data);
+
+        return response()->okView('{{ modelCamelCase }}.index');
+    }
+
+    /**
+     * Elimina una entidad específica
+     *
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        $this->{{ modelCamelCase }}Repo->delete(${{ modelCamelCase }});
+
+        return response()->okJson();
+    }
+}
