@@ -1,7 +1,5 @@
 # Changelog
 
-All notable changes to `crudgenerator` will be documented in this file
+Todos los cambios notables de la librería irán documentados en este archivo.
 
-## 1.0.0 - 201X-XX-XX
-
-- initial release
+## 1.0.0 - Versión inicial

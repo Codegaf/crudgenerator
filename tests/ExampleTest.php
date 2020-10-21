@@ -1,9 +1,9 @@
 <?php
 
-namespace 10codesoftware\Crudgenerator\Tests;
+namespace Codegaf\Crudgenerator\Tests;
 
 use Orchestra\Testbench\TestCase;
-use 10codesoftware\Crudgenerator\CrudgeneratorServiceProvider;
+use Codegaf\Crudgenerator\CrudgeneratorServiceProvider;
 
 class ExampleTest extends TestCase
 {
@@ -12,7 +12,7 @@ class ExampleTest extends TestCase
     {
         return [CrudgeneratorServiceProvider::class];
     }
-    
+
     /** @test */
     public function true_is_true()
     {
