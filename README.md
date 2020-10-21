@@ -1,6 +1,6 @@
 # CrudGenerator Backend
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/codegaf/crudgenerator.svg?style=flat-square)](https://packagist.org/packages/10codesoftware/crudgenerator)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/codegaf/crudgenerator.svg?style=flat-square)](https://packagist.org/packages/codegaf/crudgenerator)
 [![Total Downloads](https://img.shields.io/packagist/dt/10codesoftware/crudgenerator.svg?style=flat-square)](https://packagist.org/packages/10codesoftware/crudgenerator)
 
 Generador de crud backend para 10codesoftware.
