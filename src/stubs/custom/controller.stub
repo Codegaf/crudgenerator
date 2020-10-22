@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Http\Controllers\{{ modelUpperCamelCase }}Controller;
+
+use App\Http\Controllers\Controller;
+use App\Services\{{ modelUpperCamelCase }}Service\{{ modelUpperCamelCase }}Service;
+use App\Models\{{ modelUpperCamelCase }};
+use App\Http\Requests\{{ modelUpperCamelCase }}Request\{{ modelUpperCamelCase }}Request;
+use App\DataTables\{{ modelUpperCamelCase }}DataTable;
+use Illuminate\View\View;
+use Illuminate\Http\Response;
+
+class {{ modelUpperCamelCase }}Controller extends Controller
+{
+
+    protected ${{ modelCamelCase }}Service;
+
+    public function __construct({{ modelUpperCamelCase }}Service ${{ modelCamelCase }}Service) {
+        $this->{{ modelCamelCase }}Service = ${{ modelCamelCase }}Service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param {{ modelUpperCamelCase }}DataTable ${{ modelCamelCase }}DataTable
+     * @return \Illuminate\Http\Response
+     */
+    public function index({{ modelUpperCamelCase }}DataTable ${{ modelCamelCase }}DataTable)
+    {
+        return $this->{{ modelCamelCase }}Service->index(${{ modelCamelCase }}DataTable);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        return $this->{{ modelCamelCase }}Service->create();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  {{ modelUpperCamelCase }}Request $request
+     * @return Response
+     */
+    public function store({{ modelUpperCamelCase }}Request $request)
+    {
+        return $this->{{ modelCamelCase }}Service->store($request->all());
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return View
+     */
+    public function show({{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        return $this->{{ modelCamelCase }}Service->show(${{ modelCamelCase }});
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return View
+     */
+    public function edit({{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        return $this->{{ modelCamelCase }}Service->edit(${{ modelCamelCase }});
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  {{ modelUpperCamelCase }}Request $request
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return Response
+     */
+    public function update({{ modelUpperCamelCase }}Request $request, {{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        return $this->{{ modelCamelCase }}Service->update($request->all(), ${{ modelCamelCase }});
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  {{ modelUpperCamelCase }} ${{ modelCamelCase }}
+     * @return Response
+     */
+    public function destroy({{ modelUpperCamelCase }} ${{ modelCamelCase }})
+    {
+        return $this->{{ modelCamelCase }}Service->destroy(${{ modelCamelCase }});
+    }
+}

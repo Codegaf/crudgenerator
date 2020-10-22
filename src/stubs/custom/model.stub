@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ model }} extends Model
+{
+    protected $table = '{{ modelSnakeCase }}';
+    protected $fillable = [{{ fillable }}];
+
+{{ relationsDefinition }}
+
+    public function getCreatedAtAttribute($value) {
+        return $value ? Carbon::parse($value)->format('d/m/Y') : null;
+    }
+
+    public function getUpdatedAtAttribute($value) {
+        return $value ? Carbon::parse($value)->format('d/m/Y') : null;
+    }
+
+
+}

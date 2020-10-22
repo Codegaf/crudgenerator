@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Repositories\{{ modelUpperCamelCase }}Repo;
+
+use App\Models\{{ modelUpperCamelCase }};
+use App\Repositories\BaseRepo;
+
+class {{ modelUpperCamelCase }}Repo extends BaseRepo
+{
+    public function getModel() {
+        return new {{ modelUpperCamelCase }}();
+    }
+}

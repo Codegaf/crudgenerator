@@ -1,0 +1,54 @@
+{
+    "name": "codegaf/crudgenerator",
+    "description": "Comando para crear un crud completo a nivel de backend con Laravel.",
+    "keywords": [
+        "10codesoftware",
+        "crudgenerator"
+    ],
+    "homepage": "https://github.com/codegaf/crudgenerator",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Isaac Campos",
+            "email": "isaaccamrod@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "laravel/framework": ">=7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Codegaf\\Crudgenerator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Codegaf\\Crudgenerator\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Codegaf\\Crudgenerator\\CrudgeneratorServiceProvider"
+            ],
+            "aliases": {
+                "Crudgenerator": "Codegaf\\Crudgenerator\\CrudgeneratorFacade"
+            }
+        }
+    }
+}
