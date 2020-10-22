@@ -287,7 +287,7 @@ class CrudGenerator extends Command
      * @return string
      */
     public function getStub(string $name) {
-        return file_get_contents($this->laravel->basePath('/stubs/custom/'.$name.'.stub'));
+        return file_get_contents(base_path('vendor/codegaf/crudgenerator/src/stubs/custom/'.$name.'.stub'));
     }
 
     /**
