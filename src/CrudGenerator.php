@@ -150,17 +150,17 @@ class CrudGenerator extends Command
         $relations = config('models.'.$this->modelCamelCase.'.model.relations') ?? [];
         $relationsDefinition = '';
 
-        foreach ($relations as $type => $relation) {
-            if ($type === 'belongsToMany') {
-                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$type.'('.$relation['modelClass'].', "' .$this->modelSnakeCase.'", "'.$relation['foreignKey'].'", "'.$relation['relatedKey'].'")';
+        foreach ($relations as $index => $relation) {
+            if ($relation['relation'] === 'belongsToMany') {
+                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['table'].'", "' .$this->modelSnakeCase.'", "'.$relation['foreignKey'].'", "'.$relation['relatedKey'].'")';
                 if (array_key_exists('pivot', $relation) && $relation['pivot']) {
-                    $relationsDefinition .= '->withPivot(['.$relation['pivot'].'])';
+                    $relationsDefinition .= '->withPivot("'.$relation['pivot'].'")';
                 }
                 $relationsDefinition .= ';' . PHP_EOL;
                 $relationsDefinition .= "\t".'}' . PHP_EOL;
             }
             else {
-                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$type.'('.$relation['modelClass'].', "'.$relation['foreign'].'");'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
+                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['foreign'].'");'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
             }
 
         }
@@ -287,7 +287,7 @@ class CrudGenerator extends Command
      * @return string
      */
     public function getStub(string $name) {
-        return file_get_contents($this->laravel->basePath('/stubs/custom/'.$name.'.stub'));
+        return file_get_contents(base_path('vendor/codegaf/crudgenerator/src/stubs/custom/'.$name.'.stub'));
     }
 
     /**

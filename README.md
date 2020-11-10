@@ -28,7 +28,16 @@ El comando crud generator de la parte del backend genera las siguientes clases:
 La clase migration irá directamente en database/migrations. La clase model irá almacenada en la carpeta app/models. Las demás clases irán en carpetas concretas siguiendo la convención. Ejemplo: el controlador de un crud generator de users irá en UserController\UserController.php.
 
 
-El crud generator necesita conocer unos datos previos para su funcionamiento correcto. Estos datos lo especificaremos en una plantilla config que tendrá su ubicación en la carpeta config/models. El nombre del archivo seguirá la convención minúscula, singular y camel case. Ejemplos: user, userContact, car… Por ejemplo, imaginemos que los usuarios tienen contactos, relación 1:N, un usuario tiene muchos contactos y cada contacto pertenece a un usuario.
+El crud generator necesita conocer unos datos previos para su funcionamiento correcto. Estos datos lo especificaremos en una plantilla config que tendrá su ubicación en la carpeta config/models. El nombre del archivo seguirá la convención singular camelCase. Ejemplos: user, userContact, car… Por ejemplo, imaginemos que los usuarios tienen contactos, relación 1:N, un usuario tiene muchos contactos y cada contacto pertenece a un usuario.
+
+Importante: Como cualquier archivo config en Laravel, cada vez que modifiquemos el archivo config relacionado con el crud generator tendremos que llamar al comando:
+
+``` php
+php artisan config:cache
+```
+
+Si ejecutamos el crud generator y no hemos llamado al comando de Laravel que reconstruye la caché, los cambios no surtirán el efecto deseado.
+
 
 Índice migration.
 
@@ -111,11 +120,11 @@ El índice model nos permitirá especificar los fillable y las relaciones de la 
 
 ``` php
 ‘model’ => [
-    ‘fillable’ => ‘[“name”, “surname”, “email”, “phone”, “born_date”, “user_id”]’,
+    ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
 ],
 ```
 
-- relations -> Array. Obligatorio. En este índice, que puede contener un array vacío si la entidad no tiene relaciones, podemos especificar las relaciones con otras entidades. Los índices del array relations serán los nombres de las relaciones que contempla Laravel. Como por ejemplo belongsTo, hasMany, hasOne, belongsToMany... 
+- relations -> Array. Opcional. En este índice podemos especificar las relaciones con otras entidades. Los índices del array relations serán los nombres de las relaciones que contempla Laravel. Como por ejemplo belongsTo, hasMany, hasOne, belongsToMany... 
 
 Este array puede tener las siguientes opciones:
 
@@ -127,13 +136,15 @@ Este array puede tener las siguientes opciones:
 
 ``` php
 ‘model’ => [
-    ‘fillable’ => ‘[“name”, “surname”, “email”, “phone”, “born_date”, “user_id”]’,
+    ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
     ‘relations’ => [
-	    ‘belongsTo’ => [
+	    0 => [
+            ‘relation‘ => ‘belongsTo‘,
 		    ‘functionName’ => ‘user’,
 		    ‘modelClass’ => ‘User::class’,
 		    ‘foreign’ => ‘user_id’
         ],
+        1 => ...
     ],
 ],
 ```
@@ -145,15 +156,18 @@ Para las relaciones belongsToMany tendremos las siguientes opciones disponibles:
 
 ``` php
 ‘model’ => [
-    ‘fillable’ => ‘[“name”, “surname”, “email”, “phone”, “born_date”, “user_id”]’,
+    ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
     ‘relations’ => [
-	    ‘belongsToMany’ => [
+	    0 => [
+            ‘relation‘ => ‘belongsToMany‘,
 		    ‘functionName’ => ‘user’,
 		    ‘modelClass’ => ‘User::class’,
+            ’table’ => ’users_contacts’,
 		    ‘foreignKey’ => ‘user_id’,
 		    ‘relationKey’ => ‘friend_id’,
-		    ‘pivot’ => ‘“friendship_date”, “active”’
+		    ‘pivot’ => ‘friendship_date, active’
         ],
+        1 => ...
     ],
 ],
 ```
@@ -171,28 +185,34 @@ Los índices del array dataTables son los nombres de las columnas en base de dat
 ``` php
 'dataTables' => [
    'name' => [
-       'label' => 'forms.name'
+       'label' => 'global.name'
    ],
    'surname' => [
-       'label' => 'forms.surname'
+       'label' => 'global.surname'
    ],
    'email' => [
-       'label' => 'forms.label'
+       'label' => 'global.label'
    ],
    'phone' => [
-       'label' => 'forms.phone'
+       'label' => 'global.phone'
    ],
    'born_date' => [
-       'label' => 'forms.born_date'
+       'label' => 'global.born_date'
    
    ],
    'created_at' => [
-       'label' => 'forms.created_at'
+       'label' => 'global.created_at'
    ]
 ],
 ```
 
 Una vez configurado correctamente el archivo en config/models podemos proceder a ejecutar los comandos que se indican a continuación:
+
+Para que los cambios del archivo config surtan efectos tenemos que limpiar la caché del config de Laravel:
+
+``` php
+php artisan config:cache
+```
 
 Para ejecutar el comando completo añadiremos la opción --all. El nombre del modelo debe
 especificarse en PascalCase (Car, UserContact) 
@@ -221,12 +241,6 @@ php artisan destroy:crud Model
 - model -> Obligatorio. model hace referencia al modelo del crud en formato mayúscula, singular y camel case.
 
 El sistema pedirá confirmación antes de realizar el proceso. Se recuerda que esta acción destruye el crud entero, por lo que hay que sopesar, si se tenía avanzado el crud, si merece la pena o no ejecutar el comando.
-
-### Testing
-
-``` bash
-composer test
-```
 
 ### Changelog
 
