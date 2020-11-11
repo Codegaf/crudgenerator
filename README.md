@@ -139,10 +139,10 @@ Este array puede tener las siguientes opciones:
     ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
     ‘relations’ => [
 	    0 => [
-            ‘relation‘ => ‘belongsTo‘,
-		    ‘functionName’ => ‘user’,
-		    ‘modelClass’ => ‘User::class’,
-		    ‘foreign’ => ‘user_id’
+                ‘relation’ => ‘belongsTo’,
+                ‘functionName’ => ‘user’,
+                ‘modelClass’ => ‘User::class’,
+                ‘foreign’ => ‘user_id’
         ],
         1 => ...
     ],
@@ -159,13 +159,13 @@ Para las relaciones belongsToMany tendremos las siguientes opciones disponibles:
     ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
     ‘relations’ => [
 	    0 => [
-            ‘relation‘ => ‘belongsToMany‘,
-		    ‘functionName’ => ‘user’,
-		    ‘modelClass’ => ‘User::class’,
-            ’table’ => ’users_contacts’,
-		    ‘foreignKey’ => ‘user_id’,
-		    ‘relationKey’ => ‘friend_id’,
-		    ‘pivot’ => ‘friendship_date, active’
+                ‘relation’ => ‘belongsToMany’,
+                ‘functionName’ => ‘user’,
+                ‘modelClass’ => ‘User::class’,
+                ’table’ => ’users_contacts’,
+                ‘foreignKey’ => ‘user_id’,
+                ‘relationKey’ => ‘friend_id’,
+                ‘pivot’ => ‘friendship_date, active’
         ],
         1 => ...
     ],
