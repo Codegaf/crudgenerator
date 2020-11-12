@@ -51,6 +51,8 @@ Los índices del array columns contemplan los nombres de las columnas tal y como
 
 - unique -> Booleano. Opcional. Si especificamos esta opción y la establecemos a true, la columna en base de datos será única. Si no especificamos esta opción o la establecemos a false la columna no será única.
 
+- default -> String|Integer|Boolean… Opcional. Si especificamos esta opción y establecemos un valor, se añadirá un valor por defecto a la columna en base de datos.
+
 2.Foreigns
 
 Los índices del array foreigns recogen las columnas de tipo foreign key. Este índice no es obligatorio añadirlo. Solo será necesario para las tablas con relaciones. Las opciones de cada array foreign serán:
