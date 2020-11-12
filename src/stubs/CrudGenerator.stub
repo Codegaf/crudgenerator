@@ -122,6 +122,9 @@ class CrudGenerator extends Command
             if (array_key_exists('unique', $dataColumn) && $dataColumn['unique']) {
                 $columnsDefinition .= '->unique()';
             }
+            if (array_key_exists('default', $dataColumn) && $dataColumn['default']) {
+                $columnsDefinition .= '->default("'.$dataColumn['default'].'")';
+            }
             $columnsDefinition .= ';' . PHP_EOL . "\t\t\t";
         }
 
@@ -150,7 +153,7 @@ class CrudGenerator extends Command
         $relations = config('models.'.$this->modelCamelCase.'.model.relations') ?? [];
         $relationsDefinition = '';
 
-        foreach ($relations as $type => $relation) {
+        foreach ($relations as $index => $relation) {
             if ($relation['relation'] === 'belongsToMany') {
                 $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['table'].'", "' .$this->modelSnakeCase.'", "'.$relation['foreignKey'].'", "'.$relation['relatedKey'].'")';
                 if (array_key_exists('pivot', $relation) && $relation['pivot']) {
@@ -287,7 +290,7 @@ class CrudGenerator extends Command
      * @return string
      */
     public function getStub(string $name) {
-        return file_get_contents($this->laravel->basePath('/stubs/custom/'.$name.'.stub'));
+        return file_get_contents(base_path('vendor/codegaf/crudgenerator/src/stubs/custom/'.$name.'.stub'));
     }
 
     /**

@@ -122,6 +122,9 @@ class CrudGenerator extends Command
             if (array_key_exists('unique', $dataColumn) && $dataColumn['unique']) {
                 $columnsDefinition .= '->unique()';
             }
+            if (array_key_exists('default', $dataColumn) && $dataColumn['default']) {
+                $columnsDefinition .= '->default("'.$dataColumn['default'].'")';
+            }
             $columnsDefinition .= ';' . PHP_EOL . "\t\t\t";
         }
 

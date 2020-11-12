@@ -70,6 +70,7 @@ Los Ã­ndices del array foreigns recogen las columnas de tipo foreign key. Este Ã
        'name' => [
            'type' => 'string',
            'nullable' => false,
+           'default' => 'string|integer|boolean'
        ],
 
        'surname' => [
