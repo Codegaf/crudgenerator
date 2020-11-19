@@ -162,6 +162,12 @@ class CrudGenerator extends Command
                 $relationsDefinition .= ';' . PHP_EOL;
                 $relationsDefinition .= "\t".'}' . PHP_EOL;
             }
+            else if ($relation['relation'] === 'morphTo') {
+                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'();'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
+            }
+            else if (in_array($relation['relation'], ['morphOne', 'morphMany', 'morphToMany', 'morphedByMany'])) {
+                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['name'].'");'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
+            }
             else {
                 $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['foreign'].'");'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
             }

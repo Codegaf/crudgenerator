@@ -157,6 +157,14 @@ Este array puede tener las siguientes opciones:
 
 Para las relaciones belongsToMany tendremos las siguientes opciones disponibles:
 
+- table -> String. Obligatorio. Es el nombre de la tabla intermedia.
+
+- foreignKey -> String. Obligatorio. Es el nombre de la foreign key.
+
+- relationKey -> String. Obligatorio. Es el nombre de la key del modelo.
+
+- pivot -> String. Opcional. Si la tabla intermedia tiene columnas pivotes podemos establecerlas aquí. 
+
 ``` php
 ‘model’ => [
     ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
@@ -169,6 +177,40 @@ Para las relaciones belongsToMany tendremos las siguientes opciones disponibles:
                 ‘foreignKey’ => ‘user_id’,
                 ‘relationKey’ => ‘friend_id’,
                 ‘pivot’ => ‘friendship_date, active’
+        ],
+        1 => ...
+    ],
+],
+```
+
+Para las relaciones polimórficas tendremos las siguientes estructuras disponibles:
+
+- morphTo
+
+``` php
+‘model’ => [
+    ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
+    ‘relations’ => [
+	    0 => [
+                ‘relation’ => ‘morphTo’,
+                ‘functionName’ => ‘imageable’,
+        ],
+        1 => ...
+    ],
+],
+```
+
+- morphOne, morphMany, morphToMany, morphedByMany
+
+``` php
+‘model’ => [
+    ‘fillable’ => ['name', 'surname', 'email', 'phone', 'born_date', 'user_id'],
+    ‘relations’ => [
+	    0 => [
+                ‘relation’ => ‘morphOne’, // morphMany, morphToMany, morphedByMany
+                ‘functionName’ => ‘image’,
+                ‘modelClass’ => ‘User::class’,
+                ’name’ => ’imageable’,
         ],
         1 => ...
     ],
