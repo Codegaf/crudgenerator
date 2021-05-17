@@ -57,6 +57,7 @@ class DestroyCrud extends Command
             $this->handleDestroyRepository();
             $this->handleDestroyRequest();
             $this->handleDestroyDatatable();
+            $this->handleDestroyFactory();
         }
         else {
             if ($this->confirm('Esta seguro que desea eliminar todo el crud?')) {
@@ -66,6 +67,7 @@ class DestroyCrud extends Command
                 $this->handleDestroyRepository();
                 $this->handleDestroyRequest();
                 $this->handleDestroyDatatable();
+                $this->handleDestroyFactory();
 
                 $this->info('DestroyCrud finalizado correctamente');
             }
@@ -190,6 +192,17 @@ class DestroyCrud extends Command
             unlink(app_path('/Datatables/'.$this->model.'DataTable.php'));
 
             $this->info('DataTable eliminado correctamente');
+        }
+    }
+
+    /**
+     * Elimina el archivo Factory
+     */
+    public function handleDestroyFactory() {
+        if (file_exists(database_path('/factories/'.$this->model.'Factory.php'))) {
+            unlink(database_path('/factories/'.$this->model.'Factory.php'));
+
+            $this->info('Factory eliminado correctamente');
         }
     }
 

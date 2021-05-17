@@ -92,6 +92,11 @@ class CrudGenerator extends Command
                 if ($this->confirm('Crear Request?')) {
                     $this->handleRequest();
                 }
+
+                // Factory
+                if ($this->confirm('Crear Factory?')) {
+                    $this->handleFactory();
+                }
             }
 
             $this->info('CrudGenerator finalizado correctamente.');
@@ -247,6 +252,17 @@ class CrudGenerator extends Command
         $this->info('Controlador creado correctamente.');
     }
 
+    /**
+     * Genera el archivo factory
+     */
+    public function handleFactory() {
+        $factory = $this->getStub('factory');
+        $factory = $this->replaceTextVariables(['{{ model }}'], [$this->model], $factory);
+        $this->createFile(database_path('factories/'.$this->model.'Factory.php'), $factory);
+
+        $this->info('Factory creado correctamente');
+    }
+
 
 
     /**
@@ -329,6 +345,7 @@ class CrudGenerator extends Command
         $this->handleRepository();
         $this->handleDataTable();
         $this->handleRequest();
+        $this->handleFactory();
     }
 
 }

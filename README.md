@@ -72,7 +72,7 @@ Los índices del array foreigns recogen las columnas de tipo foreign key. Este �
        'name' => [
            'type' => 'string',
            'nullable' => false,
-           'default' => 'string|integer|boolean'
+           'default' => 'string|integer|boolean...'
        ],
 
        'surname' => [
@@ -216,8 +216,6 @@ Para las relaciones polimórficas tendremos las siguientes estructuras disponibl
     ],
 ],
 ```
-
-
 
 4.DataTables
 
