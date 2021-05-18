@@ -10,7 +10,7 @@ Generador de crud backend para 10codesoftware.
 Puedes instalar el paquete via composer:
 
 ```bash
-composer require codegaf/crudgenerator dev-master
+composer require codegaf/crudgenerator
 ```
 
 ## Guía de uso
@@ -24,6 +24,7 @@ El comando crud generator de la parte del backend genera las siguientes clases:
 - Repository.
 - DataTable.
 - Request.
+- Factory.
 
 La clase migration irá directamente en database/migrations. La clase model irá almacenada en la carpeta app/models. Las demás clases irán en carpetas concretas siguiendo la convención. Ejemplo: el controlador de un crud generator de users irá en UserController\UserController.php.
 
@@ -284,6 +285,7 @@ php artisan destroy:crud Model
 - model -> Obligatorio. model hace referencia al modelo del crud en formato mayúscula, singular y camel case.
 
 El sistema pedirá confirmación antes de realizar el proceso. Se recuerda que esta acción destruye el crud entero, por lo que hay que sopesar, si se tenía avanzado el crud, si merece la pena o no ejecutar el comando.
+Como el archivo migration tiene una parte dinámica es el único que el comando destroy:crud no podrá eliminar. Deberá realizarlo a mano.
 
 ### Changelog
 
