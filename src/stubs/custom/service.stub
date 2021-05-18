@@ -24,7 +24,7 @@ class {{ modelUpperCamelCase }}Service
      */
     public function index({{ modelUpperCamelCase }}DataTable ${{ modelCamelCase }}DataTable)
     {
-        return ${{ modelCamelCase }}DataTable->render('{{ modelCamelCase }}.index');
+        return ${{ modelCamelCase }}DataTable->render('project.{{ modelCamelCase }}.index');
     }
 
     /**
@@ -34,7 +34,7 @@ class {{ modelUpperCamelCase }}Service
      */
     public function create()
     {
-        return view('{{ modelCamelCase }}.create');
+        return view('project.{{ modelCamelCase }}.create');
     }
 
     /**
@@ -58,7 +58,7 @@ class {{ modelUpperCamelCase }}Service
      */
     public function show({{ modelUpperCamelCase }} ${{ modelCamelCase }})
     {
-        return view('{{ modelCamelCase }}.show', compact('{{ modelCamelCase }}'));
+        return view('project.{{ modelCamelCase }}.show', compact('{{ modelCamelCase }}'));
     }
 
     /**
@@ -69,7 +69,7 @@ class {{ modelUpperCamelCase }}Service
      */
     public function edit({{ modelUpperCamelCase }} ${{ modelCamelCase }})
     {
-        return view('{{ modelCamelCase }}.edit', compact('{{ modelCamelCase }}'));
+        return view('project.{{ modelCamelCase }}.edit', compact('{{ modelCamelCase }}'));
     }
 
     /**

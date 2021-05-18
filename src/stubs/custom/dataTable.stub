@@ -2,14 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Traits\FiltersDatatable;
 use App\Models\{{ modelUpperCamelCase }};
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Database\Eloquent\Builder;
-use Yajra\DataTables\DataTableAbstract;
-use Yajra\DataTables\Html\Builder as YajraBuilder;
 
 class {{ modelUpperCamelCase }}DataTable extends DataTable
 {
@@ -18,7 +13,7 @@ class {{ modelUpperCamelCase }}DataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return DataTableAbstract
+     * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
     {
@@ -43,7 +38,7 @@ class {{ modelUpperCamelCase }}DataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param {{ modelUpperCamelCase }} $model
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query({{ modelUpperCamelCase }} $model)
     {
@@ -53,15 +48,16 @@ class {{ modelUpperCamelCase }}DataTable extends DataTable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return YajraBuilder
+     * @return \Yajra\DataTables\Html\Builder
      */
     public function html()
     {
         return $this->builder()
             ->parameters([
                 'language' => [
-                    'url' => asset('/vendor/datatables/lang/'.app()->getLocale().'.json'),
+                    'url' => asset(mix('/vendor/datatables/lang/'.app()->getLocale().'.json')),
                 ],
+                'filter' => false,
             ])
             ->postAjax([
                 'url' => route('{{ modelCamelCase }}.index'),
@@ -71,12 +67,8 @@ class {{ modelUpperCamelCase }}DataTable extends DataTable
             ])
             ->setTableId('{{ modelKebab }}-table')
             ->columns($this->getColumns())
-            ->dom('B <"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>> rt <"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>')
-            ->orderBy(1, 'asc')
-            ->buttons(
-                Button::make('reload'),
-                Button::make('export')
-            );
+            ->responsive()
+            ->orderBy(1, 'asc');
     }
 
     /**
