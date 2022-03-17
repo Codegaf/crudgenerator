@@ -57,8 +57,7 @@ class CrudGenerator extends Command
 
             if ($optionAll) {
                 $this->generateAll();
-            }
-            else {
+            } else {
                 // Migration
                 if ($this->confirm('Crear Migration?')) {
                     $this->handleMigration();
@@ -102,19 +101,19 @@ class CrudGenerator extends Command
             $this->info('CrudGenerator finalizado correctamente.');
 
             return 0;
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->info($e->getTraceAsString());
-            Artisan::call('destroy:crud '.$this->model. ' noconfirm');
+            Artisan::call('destroy:crud '.$this->model.' noconfirm');
+
             return 1;
         }
-
     }
 
     /**
-     * Genera el archivo migrations
+     * Genera el archivo migrations.
      */
-    public function handleMigration() {
+    public function handleMigration()
+    {
         $columns = config('models.'.$this->modelCamelCase.'.migration');
         $columnsDefinition = '';
         $foreignsDefinition = '';
@@ -130,17 +129,16 @@ class CrudGenerator extends Command
             if (array_key_exists('default', $dataColumn) && $dataColumn['default']) {
                 $columnsDefinition .= '->default("'.$dataColumn['default'].'")';
             }
-            $columnsDefinition .= ';' . PHP_EOL . "\t\t\t";
+            $columnsDefinition .= ';'.PHP_EOL."\t\t\t";
         }
 
         if (array_key_exists('foreigns', $columns)) {
             foreach ($columns['foreigns'] as $foreignColumn => $dataForeign) {
                 $foreignsDefinition .= '$table->foreign("'.$foreignColumn.'")->references("'.$dataForeign['references'].'")->on("'.$dataForeign['table'].'")';
                 $foreignsDefinition .= $dataForeign['onDelete'] ? '->onDelete("'.$dataForeign['onDelete'].'")' : '';
-                $foreignsDefinition .= ';' . PHP_EOL . "\t\t\t";
+                $foreignsDefinition .= ';'.PHP_EOL."\t\t\t";
             }
         }
-
 
         $migration = $this->getStub('migration.create');
         $migration = $this->replaceTextVariables(['{{ modelUpperCamelCase }}', '{{ modelSnakeCase }}', '{{ columnsDefinition }}', '{{ foreignsDefinition }}'], [$this->setModelPlural($this->model), $this->modelSnakeCase, $columnsDefinition, $foreignsDefinition], $migration);
@@ -150,9 +148,10 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo model
+     * Genera el archivo model.
      */
-    public function handleModel() {
+    public function handleModel()
+    {
         $fillable = implode('","', config('models.'.$this->modelCamelCase.'.model.fillable'));
         $fillable = '"'.$fillable.'"';
         $relations = config('models.'.$this->modelCamelCase.'.model.relations') ?? [];
@@ -160,23 +159,19 @@ class CrudGenerator extends Command
 
         foreach ($relations as $index => $relation) {
             if ($relation['relation'] === 'belongsToMany') {
-                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['table'].'", "' .$this->modelSnakeCase.'", "'.$relation['foreignKey'].'", "'.$relation['relatedKey'].'")';
+                $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['table'].'", "'.$this->modelSnakeCase.'", "'.$relation['foreignKey'].'", "'.$relation['relatedKey'].'")';
                 if (array_key_exists('pivot', $relation) && $relation['pivot']) {
                     $relationsDefinition .= '->withPivot("'.$relation['pivot'].'")';
                 }
-                $relationsDefinition .= ';' . PHP_EOL;
-                $relationsDefinition .= "\t".'}' . PHP_EOL;
-            }
-            else if ($relation['relation'] === 'morphTo') {
+                $relationsDefinition .= ';'.PHP_EOL;
+                $relationsDefinition .= "\t".'}'.PHP_EOL;
+            } elseif ($relation['relation'] === 'morphTo') {
                 $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'();'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
-            }
-            else if (in_array($relation['relation'], ['morphOne', 'morphMany', 'morphToMany', 'morphedByMany'])) {
+            } elseif (in_array($relation['relation'], ['morphOne', 'morphMany', 'morphToMany', 'morphedByMany'])) {
                 $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['name'].'");'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
-            }
-            else {
+            } else {
                 $relationsDefinition .= "\t".'public function '.$relation['functionName'].'() {'.PHP_EOL."\t\t".'return $this->'.$relation['relation'].'('.$relation['modelClass'].', "'.$relation['foreign'].'");'.PHP_EOL."\t".'}'.PHP_EOL.PHP_EOL;
             }
-
         }
 
         $model = $this->getStub('model');
@@ -187,9 +182,10 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo repositorio
+     * Genera el archivo repositorio.
      */
-    public function handleRepository() {
+    public function handleRepository()
+    {
         $repository = $this->getStub('repository');
         $repository = $this->replaceTextVariables(['{{ modelUpperCamelCase }}'], [$this->model], $repository);
         $this->createPath(app_path('/Repositories/'.$this->model.'Repo'));
@@ -199,9 +195,10 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo service
+     * Genera el archivo service.
      */
-    public function handleService() {
+    public function handleService()
+    {
         $service = $this->getStub('service');
         $service = $this->replaceTextVariables(['{{ modelUpperCamelCase }}', '{{ modelCamelCase }}'], [$this->model, $this->modelCamelCase], $service);
         $this->createPath(app_path('/Services/'.$this->model.'Service'));
@@ -211,14 +208,15 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo DataTables
+     * Genera el archivo DataTables.
      */
-    public function handleDataTable() {
+    public function handleDataTable()
+    {
         $columnsDataTable = config('models.'.$this->modelCamelCase.'.dataTables');
         $columnsDefinition = '';
 
         foreach ($columnsDataTable as $name => $column) {
-            $columnsDefinition .= 'Column::make("'.$name.'")->title(__("'.$column['label'].'")),' . PHP_EOL;
+            $columnsDefinition .= 'Column::make("'.$name.'")->title(__("'.$column['label'].'")),'.PHP_EOL;
         }
 
         $datatable = $this->getStub('dataTable');
@@ -229,9 +227,10 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo request
+     * Genera el archivo request.
      */
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $request = $this->getStub('request');
         $request = $this->replaceTextVariables(['{{ modelUpperCamelCase }}'], [$this->model], $request);
         $this->createPath(app_path('/Http/Requests/'.$this->model.'Request'));
@@ -241,9 +240,10 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo controlador
+     * Genera el archivo controlador.
      */
-    public function handleController() {
+    public function handleController()
+    {
         $controller = $this->getStub('controller');
         $controller = $this->replaceTextVariables(['{{ modelUpperCamelCase }}', '{{ modelCamelCase }}'], [$this->model, $this->modelCamelCase], $controller);
         $this->createPath(base_path('app/Http/Controllers/'.$this->model.'Controller'));
@@ -253,9 +253,10 @@ class CrudGenerator extends Command
     }
 
     /**
-     * Genera el archivo factory
+     * Genera el archivo factory.
      */
-    public function handleFactory() {
+    public function handleFactory()
+    {
         $factory = $this->getStub('factory');
         $factory = $this->replaceTextVariables(['{{ model }}'], [$this->model], $factory);
         $this->createFile(database_path('factories/'.$this->model.'Factory.php'), $factory);
@@ -263,81 +264,90 @@ class CrudGenerator extends Command
         $this->info('Factory creado correctamente');
     }
 
-
-
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelCamelCase(string $string) {
+    public function setModelCamelCase(string $string)
+    {
         return Str::camel($string);
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelSnakeCase(string $string) {
+    public function setModelSnakeCase(string $string)
+    {
         return Str::snake($string);
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelPlural(string $string) {
+    public function setModelPlural(string $string)
+    {
         return Str::plural($string);
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelKebab(string $string) {
+    public function setModelKebab(string $string)
+    {
         return Str::kebab($string);
     }
 
     /**
-     * @param array $search
-     * @param array $replace
+     * @param  array  $search
+     * @param  array  $replace
      * @param $text
      * @return string|string[]
      */
-    public function replaceTextVariables(array $search, array $replace, $text) {
+    public function replaceTextVariables(array $search, array $replace, $text)
+    {
         return str_replace($search, $replace, $text);
     }
 
     /**
-     * @param string $name
+     * @param  string  $name
      * @return string
      */
-    public function getStub(string $name) {
+    public function getStub(string $name)
+    {
         return file_get_contents(base_path('vendor/codegaf/crudgenerator/src/stubs/custom/'.$name.'.stub'));
     }
 
     /**
-     * Crea un directorio si no existe
+     * Crea un directorio si no existe.
+     *
      * @param $path
      */
-    public function createPath($path) {
-        if (!is_dir($path)) {
+    public function createPath($path)
+    {
+        if (! is_dir($path)) {
             mkdir($path);
         }
     }
 
     /**
-     * Crea el archivo
+     * Crea el archivo.
+     *
      * @param $path
      * @param $content
      */
-    public function createFile($path, $content) {
+    public function createFile($path, $content)
+    {
         file_put_contents($path, $content);
     }
 
     /**
-     * Si el usuario ha elegido la opción all se crean el crud completo
+     * Si el usuario ha elegido la opción all se crean el crud completo.
      */
-    public function generateAll() {
+    public function generateAll()
+    {
         $this->handleMigration();
         $this->handleModel();
         $this->handleController();
@@ -347,5 +357,4 @@ class CrudGenerator extends Command
         $this->handleRequest();
         $this->handleFactory();
     }
-
 }

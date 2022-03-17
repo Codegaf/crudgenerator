@@ -2,12 +2,11 @@
 
 namespace Codegaf\Crudgenerator\Tests;
 
-use Orchestra\Testbench\TestCase;
 use Codegaf\Crudgenerator\CrudgeneratorServiceProvider;
+use Orchestra\Testbench\TestCase;
 
 class ExampleTest extends TestCase
 {
-
     protected function getPackageProviders($app)
     {
         return [CrudgeneratorServiceProvider::class];
