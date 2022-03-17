@@ -58,8 +58,7 @@ class DestroyCrud extends Command
             $this->handleDestroyRequest();
             $this->handleDestroyDatatable();
             $this->handleDestroyFactory();
-        }
-        else {
+        } else {
             if ($this->confirm('Esta seguro que desea eliminar todo el crud?')) {
                 $this->handleDestroyModel();
                 $this->handleDestroyController();
@@ -73,46 +72,50 @@ class DestroyCrud extends Command
             }
         }
 
-
         return 0;
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelCamelCase(string $string) {
+    public function setModelCamelCase(string $string)
+    {
         return Str::camel($string);
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelSnakeCase(string $string) {
+    public function setModelSnakeCase(string $string)
+    {
         return Str::snake($string);
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelPlural(string $string) {
+    public function setModelPlural(string $string)
+    {
         return Str::plural($string);
     }
 
     /**
-     * @param string $string
+     * @param  string  $string
      * @return string
      */
-    public function setModelKebab(string $string) {
+    public function setModelKebab(string $string)
+    {
         return Str::kebab($string);
     }
 
     /**
-     * Elimina el controlador
+     * Elimina el controlador.
      */
-    public function handleDestroyController() {
+    public function handleDestroyController()
+    {
         if (file_exists(app_path('/Http/Controllers/'.$this->model.'Controller/'.$this->model.'Controller.php'))) {
             unlink(app_path('/Http/Controllers/'.$this->model.'Controller/'.$this->model.'Controller.php'));
 
@@ -126,9 +129,10 @@ class DestroyCrud extends Command
     }
 
     /**
-     * Elimina el modelo
+     * Elimina el modelo.
      */
-    public function handleDestroyModel() {
+    public function handleDestroyModel()
+    {
         if (file_exists(app_path('/Models/'.$this->model.'.php'))) {
             unlink(app_path('/Models/'.$this->model.'.php'));
 
@@ -137,9 +141,10 @@ class DestroyCrud extends Command
     }
 
     /**
-     * Elimina el servicio
+     * Elimina el servicio.
      */
-    public function handleDestroyService() {
+    public function handleDestroyService()
+    {
         if (file_exists(app_path('/Services/'.$this->model.'Service/'.$this->model.'Service.php'))) {
             unlink(app_path('/Services/'.$this->model.'Service/'.$this->model.'Service.php'));
 
@@ -153,9 +158,10 @@ class DestroyCrud extends Command
     }
 
     /**
-     * Elimina el repositorio
+     * Elimina el repositorio.
      */
-    public function handleDestroyRepository() {
+    public function handleDestroyRepository()
+    {
         if (file_exists(app_path('/Repositories/'.$this->model.'Repo/'.$this->model.'Repo.php'))) {
             unlink(app_path('/Repositories/'.$this->model.'Repo/'.$this->model.'Repo.php'));
 
@@ -169,9 +175,10 @@ class DestroyCrud extends Command
     }
 
     /**
-     * Elimina el request
+     * Elimina el request.
      */
-    public function handleDestroyRequest() {
+    public function handleDestroyRequest()
+    {
         if (file_exists(app_path('/Http/Requests/'.$this->model.'Request/'.$this->model.'Request.php'))) {
             unlink(app_path('/Http/Requests/'.$this->model.'Request/'.$this->model.'Request.php'));
 
@@ -185,9 +192,10 @@ class DestroyCrud extends Command
     }
 
     /**
-     * Elimina el archivo DataTables
+     * Elimina el archivo DataTables.
      */
-    public function handleDestroyDatatable() {
+    public function handleDestroyDatatable()
+    {
         if (file_exists(app_path('/Datatables/'.$this->model.'DataTable.php'))) {
             unlink(app_path('/Datatables/'.$this->model.'DataTable.php'));
 
@@ -196,15 +204,14 @@ class DestroyCrud extends Command
     }
 
     /**
-     * Elimina el archivo Factory
+     * Elimina el archivo Factory.
      */
-    public function handleDestroyFactory() {
+    public function handleDestroyFactory()
+    {
         if (file_exists(database_path('/factories/'.$this->model.'Factory.php'))) {
             unlink(database_path('/factories/'.$this->model.'Factory.php'));
 
             $this->info('Factory eliminado correctamente');
         }
     }
-
-
 }
